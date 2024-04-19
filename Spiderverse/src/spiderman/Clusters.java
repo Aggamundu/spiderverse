@@ -52,17 +52,50 @@ public class Clusters {
             }
         }
         connectClusters(clusters);
+
+
         for(int i = 0;i<clusters.length;i++){
-            DimensionNode one = clusters[i].getPrevDimensionNode();
-            DimensionNode two = clusters[i].getPrevDimensionNode().getPrevDimensionNode();
-            DimensionNode ptr = clusters[i];
-            while(ptr.getNextDimensionNode()!=null){
+            if(i==0){
+                DimensionNode ptr = clusters[i];
+                while(ptr.getNextDimensionNode()!=null){
+                    ptr = ptr.getNextDimensionNode();
+                }
+                ptr.setNextDimensionNode(clusters[clusters.length-1]);
+                ptr = ptr.getNextDimensionNode();
+                ptr.setNextDimensionNode(clusters[clusters.length-2]);
+            }
+            else if(i==1){
+                DimensionNode ptr = clusters[i];
+                while(ptr.getNextDimensionNode()!=null){
+                    ptr = ptr.getNextDimensionNode();
+                }
+                ptr.setNextDimensionNode(clusters[i].getPrevDimensionNode());
+                ptr = ptr.getNextDimensionNode();
+                ptr.setNextDimensionNode(clusters[clusters.length-1]);
+            }
+            else {
+                DimensionNode one = clusters[i].getPrevDimensionNode();
+                DimensionNode two = clusters[i].getPrevDimensionNode().getPrevDimensionNode();
+                DimensionNode ptr = clusters[i];
+                while(ptr.getNextDimensionNode()!=null){
+                    ptr = ptr.getNextDimensionNode();
+                }
+                ptr.setNextDimensionNode(one);
+                ptr = ptr.getNextDimensionNode();
+                ptr.setNextDimensionNode(two);
+            }
+            
+        }
+        StdOut.setFile(args[1]);
+        for(int z = 0; z<clusters.length;z++){
+            DimensionNode ptr = clusters[z];
+            while(ptr!=null){
+                System.out.print(ptr.getData().getNumber());
                 ptr = ptr.getNextDimensionNode();
             }
-            ptr.setNextDimensionNode(one);
-            ptr = ptr.getNextDimensionNode();
-            ptr.setNextDimensionNode(two);
+            System.out.println();
         }
+        
     }
 
     public static void connectClusters(DimensionNode[] arr){
