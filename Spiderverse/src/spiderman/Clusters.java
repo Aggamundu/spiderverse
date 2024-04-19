@@ -48,13 +48,27 @@ public class Clusters {
                         ptr = ptr.getNextDimensionNode();
                     }
                 }
+                clusters = newClusters;
             }
-            
         }
+        connectClusters(clusters);
+        for(int i = 0;i<clusters.length;i++){
+            DimensionNode one = clusters[i].getPrevDimensionNode();
+            DimensionNode two = clusters[i].getPrevDimensionNode().getPrevDimensionNode();
+            DimensionNode ptr = clusters[i];
+            while(ptr.getNextDimensionNode()!=null){
+                ptr = ptr.getNextDimensionNode();
+            }
+            ptr.setNextDimensionNode(one);
+            ptr = ptr.getNextDimensionNode();
+            ptr.setNextDimensionNode(two);
+        }
+    }
 
-
-
-
+    public static void connectClusters(DimensionNode[] arr){
+        for(int i = 1;i<arr.length;i++){
+            arr[i].setPrevDimensionNode(arr[i-1]);
+        }
     }
     public static double countClusters(DimensionNode[] arr){
         int count = 0;
@@ -73,10 +87,10 @@ public class Clusters {
     public static void index(DimensionNode[] cluster, Data newData, int TableSize){
         int index = newData.getNumber()%TableSize;
             if (cluster[index] == null){
-            cluster[index] = new DimensionNode(newData, null);
+                    cluster[index] = new DimensionNode(newData, null,null);
             }
             else {
-            DimensionNode insert = new DimensionNode(newData, null);
+            DimensionNode insert = new DimensionNode(newData, null,null);
             cluster[index] = insert;
             }
     }
