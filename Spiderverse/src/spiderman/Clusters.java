@@ -29,9 +29,43 @@ public class Clusters {
                 "Execute: java -cp bin spiderman.Clusters <dimension INput file> <collider OUTput file>");
                 return;
         }
+        StdIn.setFile(args[0]);
+        int a  = StdIn.readInt();
+        int TableSize = StdIn.readInt();
+        double c = StdIn.readDouble();
+        DimensionNode[] clusters = new DimensionNode[TableSize];
+        double dimCount = 0;
+        for (int i = 0; i <a; i++){
+            Data newData = new Data(StdIn.readInt(), StdIn.readInt(), StdIn.readInt());
+            index(clusters, newData, clusters.length);
+            dimCount++;
+            if((dimCount/countClusters(clusters))>=c){
+                DimensionNode[] newClusters = resize(clusters);
+                for(int j = 0; j<clusters.length; j++){
+                    DimensionNode ptr = clusters[j];
+                    while(ptr!=null){
+                        index(newClusters,ptr.getData(),newClusters.length);
+                        ptr = ptr.getNextDimensionNode();
+                    }
+                }
+            }
+            
+        }
+
+
+
 
     }
-
+    public static double countClusters(DimensionNode[] arr){
+        int count = 0;
+        for(int i = 0;i<arr.length;i++){
+            if(arr[i]!=null){
+                count++;
+            }
+        }
+        return count;
+            
+    }
     public static DimensionNode[] resize(DimensionNode[] arr){
         int a = (arr.length * 2);
         return new DimensionNode[a];
