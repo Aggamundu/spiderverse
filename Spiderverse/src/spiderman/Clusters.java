@@ -42,19 +42,19 @@ public class Clusters {
             double calc = dimCount/clusters.length;
             if(calc>=c){
                 DimensionNode[] newClusters = resize(clusters);
-                for(DimensionNode ptr: clusters){
+                /*for(DimensionNode ptr: clusters){
                     while(ptr!=null){
                         index(newClusters,ptr.getData(),newClusters.length);
                         ptr = ptr.getNextDimensionNode();
                     }
-                }
-                for(int j = 0; j<clusters.length; j++){
+                }*/
+                /*for(int j = 0; j<clusters.length; j++){
                     DimensionNode ptr = clusters[j];
                     while(ptr!=null){
                         index(newClusters,ptr.getData(),newClusters.length);
                         ptr = ptr.getNextDimensionNode();
                     }
-                }
+                }*/
                 clusters = newClusters;
             }
         }
@@ -124,6 +124,16 @@ public class Clusters {
     }
     public static DimensionNode[] resize(DimensionNode[] arr){
         int a = (arr.length * 2);
+        DimensionNode[] bigArr = new DimensionNode[a];
+        for(DimensionNode node:arr){
+            DimensionNode ptr = node;
+                while(ptr!=null){
+                    index(bigArr,ptr.getData(),arr.length);
+                    ptr = ptr.getNextDimensionNode();
+                }
+                
+        }
+
         return new DimensionNode[a];
     }
 
