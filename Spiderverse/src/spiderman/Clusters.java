@@ -29,17 +29,18 @@ public class Clusters {
                 "Execute: java -cp bin spiderman.Clusters <dimension INput file> <collider OUTput file>");
                 return;
         }
-        StdIn.setFile(args[0]);
-        int a  = StdIn.readInt();
-        int TableSize = StdIn.readInt();
-        double c = StdIn.readDouble();
-        DimensionNode[] clusters = new DimensionNode[TableSize];
-        double dimCount = 0;
-        for (int i = 0; i <a; i++){
-            Data newData = new Data(StdIn.readInt(), StdIn.readInt(), StdIn.readInt());
-            index(clusters, newData, clusters.length);
+       StdIn.setFile(args[0]);
+        int a  = StdIn.readInt();//number of dimensions
+        int TableSize = StdIn.readInt();//initial size
+        double c = StdIn.readDouble();//table threshold
+        DimensionNode[] clusters = new DimensionNode[TableSize]; //create hashtable
+        double dimCount = 0; //number of added dimensions
+        for (int i = 0; i <a; i++){ //for loop to go thru every dimension
+            Data newData = new Data(StdIn.readInt(), StdIn.readInt(), StdIn.readInt()); //create data object
+            index(clusters, newData, clusters.length);//call index method to place a DimensionNode in the hashtable
             dimCount++;
-            if((dimCount/countClusters(clusters))>=c){
+            double calc = dimCount/clusters.length;
+            if(calc>=c){
                 DimensionNode[] newClusters = resize(clusters);
                 for(DimensionNode ptr: clusters){
                     while(ptr!=null){
@@ -47,13 +48,13 @@ public class Clusters {
                         ptr = ptr.getNextDimensionNode();
                     }
                 }
-                /*for(int j = 0; j<clusters.length; j++){
+                for(int j = 0; j<clusters.length; j++){
                     DimensionNode ptr = clusters[j];
                     while(ptr!=null){
                         index(newClusters,ptr.getData(),newClusters.length);
                         ptr = ptr.getNextDimensionNode();
                     }
-                }*/
+                }
                 clusters = newClusters;
             }
         }
@@ -103,6 +104,7 @@ public class Clusters {
             System.out.println();
         }
         
+        
     }
 
     public static void connectClusters(DimensionNode[] arr){
@@ -124,13 +126,15 @@ public class Clusters {
         int a = (arr.length * 2);
         return new DimensionNode[a];
     }
+
     public static void index(DimensionNode[] cluster, Data newData, int TableSize){
-        int index = newData.getNumber()%TableSize;
+        int index = newData.getNumber()%TableSize;//hash function
+        DimensionNode insert = new DimensionNode(newData,null,null);
             if (cluster[index] == null){
-                    cluster[index] = new DimensionNode(newData, null,null);
+                    cluster[index] = insert;
             }
             else {
-            DimensionNode insert = new DimensionNode(newData, cluster[index],null);
+            insert.setNextDimensionNode(insert);
             cluster[index] = insert;
             }
     }
