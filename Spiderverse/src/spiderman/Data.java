@@ -5,7 +5,7 @@ public class Data {
 private int canon;
 private int weight;
 
-public void setData (int number, int canon, int weight){
+public Data(int number, int canon, int weight){
 this.number = number;
 this.canon = canon;
 this.weight = weight;

@@ -22,7 +22,6 @@ package spiderman;
  */
 
 public class Clusters {
-
     public static void main(String[] args) {
 
         if ( args.length < 2 ) {
@@ -30,9 +29,21 @@ public class Clusters {
                 "Execute: java -cp bin spiderman.Clusters <dimension INput file> <collider OUTput file>");
                 return;
         }
-        
 
-        // WRITE YOUR CODE HERE
+    }
 
+    public static DimensionNode[] resize(DimensionNode[] arr){
+        int a = (arr.length * 2);
+        return new DimensionNode[a];
+    }
+    public static void index(DimensionNode[] cluster, Data newData, int TableSize){
+        int index = newData.getNumber()%TableSize;
+            if (cluster[index] == null){
+            cluster[index] = new DimensionNode(newData, null);
+            }
+            else {
+            DimensionNode insert = new DimensionNode(newData, null);
+            cluster[index] = insert;
+            }
     }
 }
