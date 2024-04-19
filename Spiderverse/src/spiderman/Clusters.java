@@ -97,11 +97,11 @@ public class Clusters {
         for(int z = 0; z<clusters.length;z++){
             DimensionNode ptr = clusters[z];
             while(ptr!=null){
-                StdOut.print((ptr.getData().getNumber())+" ");
+                StdOut.print((ptr.getData().getNumber())+ " ");
                 ptr = ptr.getNextDimensionNode();
                 
             }
-            System.out.println();
+            StdOut.println();
         }
         
         
@@ -112,16 +112,7 @@ public class Clusters {
             arr[i].setPrevDimensionNode(arr[i-1]);
         }
     }
-    public static double countClusters(DimensionNode[] arr){
-        int count = 0;
-        for(int i = 0;i<arr.length;i++){
-            if(arr[i]!=null){
-                count++;
-            }
-        }
-        return count;
-            
-    }
+    
     public static DimensionNode[] resize(DimensionNode[] arr){
         int a = (arr.length * 2);
         DimensionNode[] bigArr = new DimensionNode[a];
@@ -134,7 +125,7 @@ public class Clusters {
                 
         }
 
-        return new DimensionNode[a];
+        return bigArr;
     }
 
     public static void index(DimensionNode[] cluster, Data newData, int TableSize){
@@ -144,7 +135,7 @@ public class Clusters {
                     cluster[index] = insert;
             }
             else {
-            insert.setNextDimensionNode(insert);
+            insert.setNextDimensionNode(cluster[index]);
             cluster[index] = insert;
             }
     }
