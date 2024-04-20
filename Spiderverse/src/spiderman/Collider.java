@@ -1,5 +1,5 @@
 package spiderman;
-
+import java.util.*;
 /**
  * Steps to implement this class main method:
  * 
@@ -42,8 +42,21 @@ public class Collider {
                 "Execute: java -cp bin spiderman.Collider <dimension INput file> <spiderverse INput file> <collider OUTput file>");
                 return;
         }
-
-        // WRITE YOUR CODE HERE
+        //create Table
+        Clusters clustersObj = new Clusters();
+        DimensionNode[] clusters = clustersObj.createTable(args[0]);
+        StdIn.setFile(args[0]);
+        int numberOfDims = StdIn.readInt();
+        StdIn.readInt();
+        StdIn.readInt();
+        //create adjacency list
+        LinkedList<Integer>[] adjList = new LinkedList[numberOfDims];
+        for (int i = 0; i<adjList.length;i++){
+            adjList[i].add(StdIn.readInt());
+            StdIn.readInt();
+            StdIn.readInt();
+        }
+        
         
     }
 }
