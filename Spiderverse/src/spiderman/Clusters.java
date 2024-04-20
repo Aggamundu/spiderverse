@@ -41,77 +41,75 @@ public class Clusters {
             dimCount++;
             double calc = dimCount/clusters.length;
             if(calc>=c){
-                DimensionNode[] newClusters = resize(clusters);
-                /*for(DimensionNode ptr: clusters){
-                    while(ptr!=null){
-                        index(newClusters,ptr.getData(),newClusters.length);
-                        ptr = ptr.getNextDimensionNode();
-                    }
-                }*/
-                /*for(int j = 0; j<clusters.length; j++){
-                    DimensionNode ptr = clusters[j];
-                    while(ptr!=null){
-                        index(newClusters,ptr.getData(),newClusters.length);
-                        ptr = ptr.getNextDimensionNode();
-                    }
-                }*/
-                clusters = newClusters;
+                clusters = resize(clusters);
             }
         }
-        connectClusters(clusters);
-
+        
+        
 
         for(int i = 0;i<clusters.length;i++){
-            if(i==0){
+            if (i==0){
                 DimensionNode ptr = clusters[i];
+                
                 while(ptr.getNextDimensionNode()!=null){
-                    ptr = ptr.getNextDimensionNode();
-                }
-                ptr.setNextDimensionNode(clusters[clusters.length-1]);
+                    
                 ptr = ptr.getNextDimensionNode();
-                ptr.setNextDimensionNode(clusters[clusters.length-2]);
+            }
+                Data dataOne = new Data(clusters[clusters.length-1].getData().getNumber(),clusters[clusters.length-1].getData().getCanon(),clusters[clusters.length-1].getData().getWeight());
+                DimensionNode one = new DimensionNode(dataOne, null);
+                Data dataTwo = new Data(clusters[clusters.length-2].getData().getNumber(),clusters[clusters.length-2].getData().getCanon(),clusters[clusters.length-2].getData().getWeight());
+                DimensionNode two = new DimensionNode(dataTwo, null);
+                ptr.setNextDimensionNode(one);
+                ptr = ptr.getNextDimensionNode();
+                ptr.setNextDimensionNode(two);
             }
             else if(i==1){
                 DimensionNode ptr = clusters[i];
                 while(ptr.getNextDimensionNode()!=null){
-                    ptr = ptr.getNextDimensionNode();
-                }
-                ptr.setNextDimensionNode(clusters[i].getPrevDimensionNode());
                 ptr = ptr.getNextDimensionNode();
-                ptr.setNextDimensionNode(clusters[clusters.length-1]);
             }
-            else {
-                DimensionNode one = clusters[i].getPrevDimensionNode();
-                DimensionNode two = clusters[i].getPrevDimensionNode().getPrevDimensionNode();
+            Data dataOne = new Data(clusters[0].getData().getNumber(),clusters[0].getData().getCanon(),clusters[0].getData().getWeight());
+            DimensionNode one = new DimensionNode(dataOne, null);
+            Data dataTwo = new Data(clusters[clusters.length-1].getData().getNumber(),clusters[clusters.length-1].getData().getCanon(),clusters[clusters.length-1].getData().getWeight());
+            DimensionNode two = new DimensionNode(dataTwo, null);
+            ptr.setNextDimensionNode(one);
+            ptr = ptr.getNextDimensionNode();
+            ptr.setNextDimensionNode(two);
+            } 
+             else {
                 DimensionNode ptr = clusters[i];
                 while(ptr.getNextDimensionNode()!=null){
                     ptr = ptr.getNextDimensionNode();
                 }
+                Data dataOne = new Data(clusters[i-1].getData().getNumber(),clusters[i-1].getData().getCanon(),clusters[i-1].getData().getWeight());
+                DimensionNode one = new DimensionNode(dataOne, null);
+                Data dataTwo = new Data(clusters[i-2].getData().getNumber(),clusters[i-2].getData().getCanon(),clusters[i-2].getData().getWeight());
+                DimensionNode two = new DimensionNode(dataTwo, null);
                 ptr.setNextDimensionNode(one);
                 ptr = ptr.getNextDimensionNode();
                 ptr.setNextDimensionNode(two);
             }
             
         }
+         
+        
         StdOut.setFile(args[1]);
-        for(int z = 0; z<clusters.length;z++){
+         for(int z = 0; z<clusters.length;z++){
             DimensionNode ptr = clusters[z];
             while(ptr!=null){
                 StdOut.print((ptr.getData().getNumber())+ " ");
                 ptr = ptr.getNextDimensionNode();
-                
             }
             StdOut.println();
         }
+    
+        
+        
         
         
     }
 
-    public static void connectClusters(DimensionNode[] arr){
-        for(int i = 1;i<arr.length;i++){
-            arr[i].setPrevDimensionNode(arr[i-1]);
-        }
-    }
+    
     
     public static DimensionNode[] resize(DimensionNode[] arr){
         int a = (arr.length * 2);
@@ -119,20 +117,20 @@ public class Clusters {
         for(DimensionNode node:arr){
             DimensionNode ptr = node;
                 while(ptr!=null){
-                    index(bigArr,ptr.getData(),arr.length);
+                    index(bigArr,ptr.getData(),bigArr.length);
                     ptr = ptr.getNextDimensionNode();
                 }
                 
         }
-
         return bigArr;
+        
     }
 
     public static void index(DimensionNode[] cluster, Data newData, int TableSize){
         int index = newData.getNumber()%TableSize;//hash function
-        DimensionNode insert = new DimensionNode(newData,null,null);
+        DimensionNode insert = new DimensionNode(newData,null);
             if (cluster[index] == null){
-                    cluster[index] = insert;
+                cluster[index] = insert;
             }
             else {
             insert.setNextDimensionNode(cluster[index]);
