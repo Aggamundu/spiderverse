@@ -1,5 +1,5 @@
 package spiderman;
-
+import java.util.*;
 /**
  * Steps to implement this class main method:
  * 
@@ -23,13 +23,24 @@ package spiderman;
 
 public class Clusters {
     public static void main(String[] args) {
-
-        if ( args.length < 2 ) {
+       if ( args.length < 2 ) {
             StdOut.println(
                 "Execute: java -cp bin spiderman.Clusters <dimension INput file> <collider OUTput file>");
                 return;
         }
-       StdIn.setFile(args[0]);
+        String fileOne = args[0];
+        String fileTwo = args[1];
+        DimensionNode[] arr = createTable(fileOne);
+        print(fileTwo,arr);
+        
+        
+        
+        
+    }
+
+    public static DimensionNode[] createTable(String fileOne){
+        
+       StdIn.setFile(fileOne);
         int a  = StdIn.readInt();//number of dimensions
         int TableSize = StdIn.readInt();//initial size
         double c = StdIn.readDouble();//table threshold
@@ -44,9 +55,6 @@ public class Clusters {
                 clusters = resize(clusters);
             }
         }
-        
-        
-
         for(int i = 0;i<clusters.length;i++){
             if (i==0){
                 DimensionNode ptr = clusters[i];
@@ -92,8 +100,12 @@ public class Clusters {
             
         }
          
+        return clusters;
         
-        StdOut.setFile(args[1]);
+    }
+
+    public static void print(String fileTwo, DimensionNode[] clusters){
+        StdOut.setFile(fileTwo);
          for(int z = 0; z<clusters.length;z++){
             DimensionNode ptr = clusters[z];
             while(ptr!=null){
@@ -102,14 +114,7 @@ public class Clusters {
             }
             StdOut.println();
         }
-    
-        
-        
-        
-        
     }
-
-    
     
     public static DimensionNode[] resize(DimensionNode[] arr){
         int a = (arr.length * 2);
