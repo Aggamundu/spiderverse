@@ -50,12 +50,33 @@ public class Collider {
         StdIn.readInt();
         StdIn.readInt();
         //create adjacency list
-        LinkedList<Integer>[] adjList = new LinkedList[numberOfDims];
-        for (int i = 0; i<adjList.length;i++){
+        LinkedList<Integer>[] adjList = new LinkedList[numberOfDims]; 
+        for (int i = 0; i<adjList.length;i++){//set vertexes of adjList
             adjList[i].add(StdIn.readInt());
             StdIn.readInt();
             StdIn.readInt();
         }
+        for(int z = 0; z<clusters.length;z++){
+            DimensionNode ptr = clusters[z];
+            while(ptr.getNextDimensionNode()!=null){ 
+                for(int k = 0;k<adjList.length;k++){//forward
+                    if(adjList[k].getFirst()==clusters[z].getData().getNumber()){
+                        adjList[k].add(ptr.getNextDimensionNode().getData().getNumber())
+                        break;
+                    }
+                }
+                for(int j = 0;j<adjList.length;j++){ //reverse
+                    if(adjList[j].getFirst()==ptr.getNextDimensionNode().getData().getNumber()){
+                        adjList[j].add(clusters[z].getData().getNumber());
+                        break;
+                    }
+                }
+
+                ptr = ptr.getNextDimensionNode();
+            }
+        }
+        StdOut.setFile(args[2]);
+        for()
         
         
     }
