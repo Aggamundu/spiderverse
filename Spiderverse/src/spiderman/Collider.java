@@ -46,11 +46,14 @@ public class Collider {
         Clusters clustersObj = new Clusters();
         DimensionNode[] clusters = clustersObj.createTable(args[0]);
         StdIn.setFile(args[0]);
-        int numberOfDims = StdIn.readInt();
+        LinkedList<Integer>[] adjList = new LinkedList[StdIn.readInt()];
         StdIn.readInt();
         StdIn.readInt();
         //create adjacency list
-        LinkedList<Integer>[] adjList = new LinkedList[numberOfDims]; 
+        for(int i = 0; i<adjList.length;i++){
+                adjList[i] = new LinkedList<>();
+            } 
+        
         for (int i = 0; i<adjList.length;i++){//set vertexes of adjList
             adjList[i].add(StdIn.readInt());
             StdIn.readInt();
@@ -61,7 +64,7 @@ public class Collider {
             while(ptr.getNextDimensionNode()!=null){ 
                 for(int k = 0;k<adjList.length;k++){//forward
                     if(adjList[k].getFirst()==clusters[z].getData().getNumber()){
-                        adjList[k].add(ptr.getNextDimensionNode().getData().getNumber())
+                        adjList[k].add(ptr.getNextDimensionNode().getData().getNumber());
                         break;
                     }
                 }
@@ -76,8 +79,13 @@ public class Collider {
             }
         }
         StdOut.setFile(args[2]);
-        for()
+        for(int f = 0; f<adjList.length;f++){
+            for (int num : adjList[f]){
+                StdOut.print(num + " ");
+            }
+            StdOut.println();
+        }
         
-        
-    }
+       
+    } 
 }
