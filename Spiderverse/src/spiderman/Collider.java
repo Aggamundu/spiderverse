@@ -43,7 +43,7 @@ public class Collider {
                 return;
         }
         //create Table
-        Clusters clustersObj = new Clusters();
+        /*Clusters clustersObj = new Clusters();
         DimensionNode[] clusters = clustersObj.createTable(args[0]);
         StdIn.setFile(args[0]);
         LinkedList<Integer>[] adjList = new LinkedList[StdIn.readInt()];
@@ -82,15 +82,24 @@ public class Collider {
         for(int f = 0; f<adjList.length;f++){
             for (int num : adjList[f]){
                 StdOut.print(num + " ");
+           }
+            StdOut.println(); 
+        } */
+        
+
+        ArrayList<LinkedList<Person>> arr = insertPerson(args[1]);
+        for(int i = 0;i<arr.size();i++){
+            for (Person love:arr.get(i)){
+                StdOut.print(love.getName()+" ");
             }
             StdOut.println();
         }
-        
     }
     public static ArrayList<LinkedList<Person>> insertPerson(String file){
         ArrayList<LinkedList<Person>> arr = new ArrayList<>();
         LinkedList<Person> list1 = new LinkedList<>();
         int num = StdIn.readInt();
+        arr.add(list1);
         for(int i = 0; i<num;i++){
             boolean found = false;
             int dimension = StdIn.readInt();
@@ -103,12 +112,12 @@ public class Collider {
                     arr.get(j).add(person);
                     found = true;
                 }
+            }
                 if(!found){
                     LinkedList<Person> emptyList = new LinkedList<>();
                     emptyList.add(person);
                     arr.add(emptyList);
                 }
-            }
         }
         return arr;
     }

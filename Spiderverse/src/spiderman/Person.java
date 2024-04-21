@@ -13,4 +13,11 @@ public class Person {
   public int getDimension(){
     return dimension;
   }
+  public String getName(){
+    return this.name;
+  }
+
+  public int getID(){
+    return this.id;
+  }
 }
