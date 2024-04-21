@@ -1,5 +1,5 @@
 package spiderman;
-
+import java.util.*;
 /**
  * Steps to implement this class main method:
  * 
@@ -49,7 +49,22 @@ public class TrackSpot {
                 return;
         }
 
-        // WRITE YOUR CODE HERE
-        
+        //create adjList
+        Collider collider = new Collider();
+        LinkedList<Integer>[] adjList = collider.createList(args[0]);
+
+        boolean[] visited = new boolean[adjList.length];
     }
+
+        public static void dfs(LinkedList<Integer>[] adjList, int vertex, boolean[] visited) {
+        visited[vertex] = true;
+        System.out.println(vertex + " ");
+
+        for (int neighbor : adjList[vertex]) {
+            if (!visited[neighbor]) {
+                dfs(adjList, neighbor, visited);
+            }
+        }
+    
+}
 }

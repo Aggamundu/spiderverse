@@ -42,10 +42,36 @@ public class Collider {
                 "Execute: java -cp bin spiderman.Collider <dimension INput file> <spiderverse INput file> <collider OUTput file>");
                 return;
         }
-        //create Table
+        LinkedList<Integer>[] adjList = createList(args[0]);
+        printList(args[2],adjList);
+        
+
+        
+/*
+        ArrayList<LinkedList<Person>> arr = insertPerson(args[1]);
+        StdOut.setFile("test.out");
+        for(int i = 0;i<arr.size();i++){
+            for (Person love:arr.get(i)){
+                StdOut.println(love.getName());
+            }
+            
+        } */
+        
+    }
+    public static void printList(String fileThree, LinkedList<Integer>[] adjList){
+                StdOut.setFile(fileThree);
+        for(int f = 0; f<adjList.length;f++){
+            for (int num : adjList[f]){
+                StdOut.print(num + " ");
+           }
+            StdOut.println(); 
+        } 
+    }
+
+    public static LinkedList<Integer>[] createList(String fileOne){
         Clusters clustersObj = new Clusters();
-        DimensionNode[] clusters = clustersObj.createTable(args[0]);
-        StdIn.setFile(args[0]);
+        DimensionNode[] clusters = clustersObj.createTable(fileOne);
+        StdIn.setFile(fileOne);
         LinkedList<Integer>[] adjList = new LinkedList[StdIn.readInt()];
         StdIn.readInt();
         StdIn.readInt();
@@ -78,25 +104,9 @@ public class Collider {
                 ptr = ptr.getNextDimensionNode();
             }
         }
-        StdOut.setFile(args[2]);
-        for(int f = 0; f<adjList.length;f++){
-            for (int num : adjList[f]){
-                StdOut.print(num + " ");
-           }
-            StdOut.println(); 
-        } 
-        
-/*
-        ArrayList<LinkedList<Person>> arr = insertPerson(args[1]);
-        StdOut.setFile("test.out");
-        for(int i = 0;i<arr.size();i++){
-            for (Person love:arr.get(i)){
-                StdOut.println(love.getName());
-            }
-            
-        } */
-        
+        return adjList;
     }
+
     public static ArrayList<LinkedList<Person>> insertPerson(String file){
         StdIn.setFile(file);
         ArrayList<LinkedList<Person>> arr = new ArrayList<>();
