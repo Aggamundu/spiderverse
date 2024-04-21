@@ -43,7 +43,7 @@ public class Collider {
                 return;
         }
         //create Table
-        /*Clusters clustersObj = new Clusters();
+        Clusters clustersObj = new Clusters();
         DimensionNode[] clusters = clustersObj.createTable(args[0]);
         StdIn.setFile(args[0]);
         LinkedList<Integer>[] adjList = new LinkedList[StdIn.readInt()];
@@ -84,9 +84,9 @@ public class Collider {
                 StdOut.print(num + " ");
            }
             StdOut.println(); 
-        } */
+        } 
         
-
+/*
         ArrayList<LinkedList<Person>> arr = insertPerson(args[1]);
         StdOut.setFile("test.out");
         for(int i = 0;i<arr.size();i++){
@@ -94,7 +94,7 @@ public class Collider {
                 StdOut.println(love.getName());
             }
             
-        } 
+        } */
         
     }
     public static ArrayList<LinkedList<Person>> insertPerson(String file){
