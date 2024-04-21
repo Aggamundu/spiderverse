@@ -61,7 +61,7 @@ public class Collider {
         }
         for(int z = 0; z<clusters.length;z++){
             DimensionNode ptr = clusters[z];
-            while(ptr.getNextDimensionNode()!=null){ 
+            while(ptr.getNextDimensionNode()!=null){
                 for(int k = 0;k<adjList.length;k++){//forward
                     if(adjList[k].getFirst()==clusters[z].getData().getNumber()){
                         adjList[k].add(ptr.getNextDimensionNode().getData().getNumber());
@@ -86,6 +86,30 @@ public class Collider {
             StdOut.println();
         }
         
-       
-    } 
+    }
+    public static ArrayList<LinkedList<Person>> insertPerson(String file){
+        ArrayList<LinkedList<Person>> arr = new ArrayList<>();
+        LinkedList<Person> list1 = new LinkedList<>();
+        int num = StdIn.readInt();
+        for(int i = 0; i<num;i++){
+            boolean found = false;
+            int dimension = StdIn.readInt();
+            StdIn.readChar();
+            String name = StdIn.readString();
+            int id = StdIn.readInt();
+            Person person = new Person(dimension,name,id);
+            for(int j = 0; j<arr.size();j++){
+                if(arr.get(j).getFirst().getDimension()==person.getDimension()){
+                    arr.get(j).add(person);
+                    found = true;
+                }
+                if(!found){
+                    LinkedList<Person> emptyList = new LinkedList<>();
+                    emptyList.add(person);
+                    arr.add(emptyList);
+                }
+            }
+        }
+        return arr;
+    }
 }
