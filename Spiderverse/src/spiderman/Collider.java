@@ -103,15 +103,21 @@ public class Collider {
         LinkedList<Person> list1 = new LinkedList<>();
         int num = StdIn.readInt();
         arr.add(list1);
-        for(int i = 0; i<num;i++){
+        int dimension0 = StdIn.readInt();
+            StdIn.readChar();
+            String name0 = StdIn.readString();
+            int id0 = StdIn.readInt();
+            Person person0 = new Person(dimension0,name0,id0);
+        arr.get(0).add(person0);
+        for(int i = 0; i<num-1;i++){
             boolean found = false;
             int dimension = StdIn.readInt();
             StdIn.readChar();
             String name = StdIn.readString();
             int id = StdIn.readInt();
             Person person = new Person(dimension,name,id);
-            arr.get(0).add(person);
-            for(int j = 0; j<arr.size()-1;j++){
+            
+            for(int j = 0; j<arr.size();j++){
                 
                 if(arr.get(j).getFirst().getDimension()==person.getDimension()){
                     arr.get(j).add(person);
