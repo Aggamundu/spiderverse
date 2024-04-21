@@ -88,14 +88,17 @@ public class Collider {
         
 
         ArrayList<LinkedList<Person>> arr = insertPerson(args[1]);
+        StdOut.setFile("test.out");
         for(int i = 0;i<arr.size();i++){
             for (Person love:arr.get(i)){
-                StdOut.print(love.getName()+" ");
+                StdOut.println(love.getName());
             }
-            StdOut.println();
-        }
+            
+        } 
+        
     }
     public static ArrayList<LinkedList<Person>> insertPerson(String file){
+        StdIn.setFile(file);
         ArrayList<LinkedList<Person>> arr = new ArrayList<>();
         LinkedList<Person> list1 = new LinkedList<>();
         int num = StdIn.readInt();
@@ -107,7 +110,9 @@ public class Collider {
             String name = StdIn.readString();
             int id = StdIn.readInt();
             Person person = new Person(dimension,name,id);
-            for(int j = 0; j<arr.size();j++){
+            arr.get(0).add(person);
+            for(int j = 0; j<arr.size()-1;j++){
+                
                 if(arr.get(j).getFirst().getDimension()==person.getDimension()){
                     arr.get(j).add(person);
                     found = true;
