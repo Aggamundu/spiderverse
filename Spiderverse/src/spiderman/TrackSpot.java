@@ -67,30 +67,29 @@ public class TrackSpot {
         }
         boolean[] visited = new boolean[adjList.length]; //iterate thru until you find the correct starting dim value
         int startIndex = vertexIndices.get(start);
-        System.out.println(startIndex);
-        if (dfs(adjList, startIndex, visited, targetValue, vertexValues)) {
-            System.out.println("Value " + targetValue );
-        } else {
-            System.out.println("Value " + targetValue );
-        }
+        StdOut.setFile(args[3]);
+        dfs(adjList, startIndex, visited, targetValue, vertexValues,vertexIndices);
+            
+        
     }
         public static boolean dfs(LinkedList<Integer>[] adjList, int vertex, boolean[] visited, int targetValue,
-        int[] vertexValues) {
-        visited[vertex] = true;
-        System.out.print(vertexValues[vertex] + " ");
-        if (vertexValues[vertex] == targetValue) {
-            return true; // Return true if target value is found
-        }
-
-        for (int neighbor : adjList[vertex]) {
-            if (!visited[neighbor]) {
-                if (dfs(adjList, neighbor, visited, targetValue, vertexValues)) {
-                    return true; // Stop traversal if target value is found
+            int[] vertexValues, HashMap<Integer,Integer> map) {
+            
+            visited[vertex] = true;
+            StdOut.print(vertexValues[vertex] + " ");
+            if (vertexValues[vertex] == targetValue) {
+                return true; // Return true if target value is found
+            }
+            for (int neighbor : adjList[vertex]) {
+                int index = map.get(neighbor);
+                if (!visited[index]) {
+                    if (dfs(adjList, index, visited, targetValue, vertexValues, map)) {
+                        return true; // Stop traversal if target value is found
+                    }
                 }
             }
+            return false;
         }
-        return false;
-    }
 }
 
 
