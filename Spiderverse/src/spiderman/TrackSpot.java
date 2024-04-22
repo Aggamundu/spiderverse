@@ -39,6 +39,8 @@ import java.util.*;
  * @author Seth Kelley
  */
 
+ //create hashmap for vertexes and indices
+ //Then use DFS
 public class TrackSpot {
     
     public static void main(String[] args) {
@@ -52,19 +54,43 @@ public class TrackSpot {
         //create adjList
         Collider collider = new Collider();
         LinkedList<Integer>[] adjList = collider.createList(args[0]);
-
-        boolean[] visited = new boolean[adjList.length];
+        StdIn.setFile(args[2]);
+        int start = StdIn.readInt();
+        int targetValue = StdIn.readInt();
+        HashMap<Integer, Integer> vertexIndices = new HashMap<>();
+        int[] vertexValues = new int[adjList.length];
+        for(int i = 0; i<vertexValues.length;i++){
+            vertexValues[i] = adjList[i].getFirst();
+        }
+        for(int i = 0;i<vertexValues.length;i++){
+            vertexIndices.put(vertexValues[i],i);
+        }
+        boolean[] visited = new boolean[adjList.length]; //iterate thru until you find the correct starting dim value
+        int startIndex = vertexIndices.get(start);
+        System.out.println(startIndex);
+        if (dfs(adjList, startIndex, visited, targetValue, vertexValues)) {
+            System.out.println("Value " + targetValue );
+        } else {
+            System.out.println("Value " + targetValue );
+        }
     }
-
-        public static void dfs(LinkedList<Integer>[] adjList, int vertex, boolean[] visited) {
+        public static boolean dfs(LinkedList<Integer>[] adjList, int vertex, boolean[] visited, int targetValue,
+        int[] vertexValues) {
         visited[vertex] = true;
-        System.out.println(vertex + " ");
+        System.out.print(vertexValues[vertex] + " ");
+        if (vertexValues[vertex] == targetValue) {
+            return true; // Return true if target value is found
+        }
 
         for (int neighbor : adjList[vertex]) {
             if (!visited[neighbor]) {
-                dfs(adjList, neighbor, visited);
+                if (dfs(adjList, neighbor, visited, targetValue, vertexValues)) {
+                    return true; // Stop traversal if target value is found
+                }
             }
         }
-    
+        return false;
+    }
 }
-}
+
+
