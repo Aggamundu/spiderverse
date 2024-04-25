@@ -47,15 +47,16 @@ public class Collider {
         
 
         
-/*
-        ArrayList<LinkedList<Person>> arr = insertPerson(args[1]);
+
+    /*    ArrayList<LinkedList<Person>> arr = insertPerson(args[1]);
         StdOut.setFile("test.out");
         for(int i = 0;i<arr.size();i++){
             for (Person love:arr.get(i)){
-                StdOut.println(love.getName());
+                StdOut.print(love.getName() + " ");
             }
-            
-        } */
+            StdOut.println();
+           
+        }  */
         
     }
     public static void printList(String fileThree, LinkedList<Integer>[] adjList){

@@ -74,7 +74,6 @@ public class TrackSpot {
     }
         public static boolean dfs(LinkedList<Integer>[] adjList, int vertex, boolean[] visited, int targetValue,
             int[] vertexValues, HashMap<Integer,Integer> map) {
-            
             visited[vertex] = true;
             StdOut.print(vertexValues[vertex] + " ");
             if (vertexValues[vertex] == targetValue) {

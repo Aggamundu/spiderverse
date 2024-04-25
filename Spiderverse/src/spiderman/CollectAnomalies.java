@@ -1,5 +1,5 @@
 package spiderman;
-
+import java.util.*;
 /**
  * Steps to implement this class main method:
  * 
@@ -49,8 +49,37 @@ public class CollectAnomalies {
                 "Execute: java -cp bin spiderman.CollectAnomalies <dimension INput file> <spiderverse INput file> <hub INput file> <collected OUTput file>");
                 return;
         }
-
-        // WRITE YOUR CODE HERE
+        Collider collider = new Collider();
+        ArrayList<LinkedList<Person>> peopleArr = collider.insertPerson(args[1]);
         
+        for(LinkedList<Person> list: peopleArr){
+            boolean foundSpider = false;
+            for(Person person:list){
+                if(person.getDimension()!=person.getID()){
+                    for(Person findSpider:list){
+                        if(findSpider.getDimension()==findSpider.getID()){
+                            foundSpider=true;
+                        }
+                    }
+                    if(foundSpider){
+
+                    }
+                    else{
+
+                    }
+                }
+                
+            }
+        }
+        //I need to find the dimension that the anomaly is in.
+        //iterate thru adj list made in collider
+        //if dimension != id, and if there is a person whose dimension==id
+        //if there is a spider, then do the reverse route
+        //if there is no spider, then do the forward and reverse route.
+
+
+
+        
+    
     }
-}
+    }
