@@ -53,7 +53,16 @@ public class CollectAnomalies {
         int hub = StdIn.readInt();
         Collider collider = new Collider();
         ArrayList<LinkedList<Person>> peopleArr = collider.insertPerson(args[1]);
-        LinkedList<Integer> [] clusters = collider.createList(args[0]);
+        LinkedList<Integer> [] adjList = collider.createList(args[0]);
+        HashMap<Integer, Integer> vertexIndices = new HashMap<>();
+        int[] vertexValues = new int[adjList.length];
+        StdOut.setFile(args[3]);
+        for(int i = 0; i<vertexValues.length;i++){
+            vertexValues[i] = adjList[i].getFirst();
+        }
+        for(int i = 0;i<vertexValues.length;i++){
+            vertexIndices.put(vertexValues[i],i);
+        }
         for(LinkedList<Person> list: peopleArr){
             boolean foundSpider = false;
             for(Person person:list){
@@ -64,23 +73,80 @@ public class CollectAnomalies {
                         }
                     }
                     if(foundSpider){
-                        
+                        int startVertex = vertexIndices.get(person.getDimension());
+                        bfs(adjList,startVertex,hub,vertexIndices);
                     }
                     else{
-
+                        int stopVertex = vertexIndices.get(person.getDimension());
+                        bfs(adjList,hub,stopVertex,vertexIndices);
+                        int startVertex = vertexIndices.get(person.getDimension());
+                        bfs(adjList,startVertex,hub,vertexIndices);
                     }
                 }
+            
+        }
+    }
+}
+
+       
+        private static void bfs(List<Integer>[] adjList, int startVertex, int stopVertex, Map<Integer, Integer> vertexValues) {
+    Queue<Integer> queue = new LinkedList<>();
+    boolean[] visited = new boolean[adjList.length];
+    int[] edgeTo = new int[adjList.length];
+    int[] distTo = new int[adjList.length];
+
+    // Initialize distances to infinity
+    Arrays.fill(distTo, Integer.MAX_VALUE);
+
+    // Initialize the queue with the start vertex
+    queue.offer(startVertex);
+    visited[startVertex] = true;
+    distTo[startVertex] = 0;
+
+    // Perform BFS
+    while (!queue.isEmpty()) {
+        int currentVertex = queue.poll();
+        // If we reach the stop vertex, terminate the BFS
+        if (currentVertex == stopVertex) {
+            // Process the shortest path and print vertex values
+            printShortestPath(currentVertex, edgeTo, vertexValues);
+            return;
+        }
+        // Iterate over the neighbors of the current vertex
+        for (int neighbor : adjList[currentVertex]) {
+            int index = vertexValues.get(neighbor);
+            if (!visited[index]) {
+                // Mark the neighbor as visited
+                visited[index] = true;
+                // Record the edge that leads to the neighbor
+                edgeTo[index] = currentVertex;
+                // Update the distance to the neighbor
+                distTo[index] = distTo[currentVertex] + 1;
+                // Add the neighbor to the queue
+                queue.offer(neighbor);
             }
         }
-        //I need to find the dimension that the anomaly is in.
-        //iterate thru adj list made in collider
-        //if dimension != id, and if there is a person whose dimension==id
-        //if there is a spider, then do the reverse route
-        //if there is no spider, then do the forward and reverse route.
+    }
+}
+
+private static void printShortestPath(int stopVertex, int[] edgeTo, Map<Integer, Integer> vertexValues) {
+    Stack<Integer> shortestPath = new Stack<>();
+    // Backtrack from the stop vertex to the start vertex
+    for (int v = stopVertex; v != 0; v = edgeTo[v]) {
+        shortestPath.push(v);
+    }
+    // Print the values of vertices in the shortest path
+    while (!shortestPath.isEmpty()) {
+        int vertex = shortestPath.pop();
+        StdOut.print(vertexValues.get(vertex) + " ");
+    }
+    StdOut.println();
+}
+
 
 
 
         
     
     }
-    }
+    
