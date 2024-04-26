@@ -49,9 +49,11 @@ public class CollectAnomalies {
                 "Execute: java -cp bin spiderman.CollectAnomalies <dimension INput file> <spiderverse INput file> <hub INput file> <collected OUTput file>");
                 return;
         }
+        StdIn.setFile(args[2]);
+        int hub = StdIn.readInt();
         Collider collider = new Collider();
         ArrayList<LinkedList<Person>> peopleArr = collider.insertPerson(args[1]);
-        
+        LinkedList<Integer> [] clusters = collider.createList(args[0]);
         for(LinkedList<Person> list: peopleArr){
             boolean foundSpider = false;
             for(Person person:list){
@@ -62,13 +64,12 @@ public class CollectAnomalies {
                         }
                     }
                     if(foundSpider){
-
+                        
                     }
                     else{
 
                     }
                 }
-                
             }
         }
         //I need to find the dimension that the anomaly is in.

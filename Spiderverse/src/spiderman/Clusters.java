@@ -32,15 +32,11 @@ public class Clusters {
         String fileTwo = args[1];
         DimensionNode[] arr = createTable(fileOne);
         print(fileTwo,arr);
-        
-        
-        
-        
     }
 
     public static DimensionNode[] createTable(String fileOne){
         
-       StdIn.setFile(fileOne);
+        StdIn.setFile(fileOne);
         int a  = StdIn.readInt();//number of dimensions
         int TableSize = StdIn.readInt();//initial size
         double c = StdIn.readDouble();//table threshold
@@ -83,8 +79,8 @@ public class Clusters {
             ptr.setNextDimensionNode(one);
             ptr = ptr.getNextDimensionNode();
             ptr.setNextDimensionNode(two);
-            } 
-             else {
+            }
+            else {
                 DimensionNode ptr = clusters[i];
                 while(ptr.getNextDimensionNode()!=null){
                     ptr = ptr.getNextDimensionNode();
@@ -132,7 +128,7 @@ public class Clusters {
     }
 
     public static void index(DimensionNode[] cluster, Data newData, int TableSize){
-        int index = newData.getNumber()%TableSize;//hash function
+        int index = newData.getNumber()%TableSize; //hash function
         DimensionNode insert = new DimensionNode(newData,null);
             if (cluster[index] == null){
                 cluster[index] = insert;

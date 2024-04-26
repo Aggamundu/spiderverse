@@ -55,9 +55,9 @@ public class Collider {
                 StdOut.print(love.getName() + " ");
             }
             StdOut.println();
-           
+
         }  */
-        
+
     }
     public static void printList(String fileThree, LinkedList<Integer>[] adjList){
                 StdOut.setFile(fileThree);
