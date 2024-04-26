@@ -63,6 +63,13 @@ public class CollectAnomalies {
         for(int i = 0;i<vertexValues.length;i++){
             vertexIndices.put(vertexValues[i],i);
         }
+     /*   for(LinkedList<Person> p :peopleArr){
+            for(int i=0;i<p.size();i++){
+                System.out.println(vertexIndices.get(p.get(i).getDimension()));
+            }
+        } */
+        //testing arrays
+    
         for(LinkedList<Person> list: peopleArr){
             boolean foundSpider = false;
             for(Person person:list){
@@ -74,13 +81,17 @@ public class CollectAnomalies {
                     }
                     if(foundSpider){
                         int startVertex = vertexIndices.get(person.getDimension());
-                        bfs(adjList,startVertex,hub,vertexIndices);
+                        int hubIndex = vertexIndices.get(hub);
+                        bfs(adjList,startVertex,hubIndex,vertexIndices);
+                    
+                        
                     }
                     else{
                         int stopVertex = vertexIndices.get(person.getDimension());
-                        bfs(adjList,hub,stopVertex,vertexIndices);
-                        int startVertex = vertexIndices.get(person.getDimension());
-                        bfs(adjList,startVertex,hub,vertexIndices);
+                        int hubIndex = vertexIndices.get(hub);
+                        bfs(adjList,hubIndex,stopVertex,vertexIndices);
+                        int startVertex = stopVertex;
+                        bfs(adjList,startVertex,hubIndex,vertexIndices);
                     }
                 }
             
@@ -113,7 +124,8 @@ public class CollectAnomalies {
             return;
         }
         // Iterate over the neighbors of the current vertex
-        for (int neighbor : adjList[currentVertex]) {
+        
+       for (int neighbor : adjList[currentVertex]) {
             int index = vertexValues.get(neighbor);
             if (!visited[index]) {
                 // Mark the neighbor as visited
@@ -123,7 +135,7 @@ public class CollectAnomalies {
                 // Update the distance to the neighbor
                 distTo[index] = distTo[currentVertex] + 1;
                 // Add the neighbor to the queue
-                queue.offer(neighbor);
+                queue.offer(index);
             }
         }
     }
