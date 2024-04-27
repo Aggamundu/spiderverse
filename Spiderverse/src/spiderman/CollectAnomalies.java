@@ -57,6 +57,7 @@ public class CollectAnomalies {
         HashMap<Integer, Integer> vertexIndices = new HashMap<>();//value is vertex indices(0-65)
         HashMap<Integer, Integer> dimensionNumbers = new HashMap<>();//value is dim number
         int[] vertexValues = new int[adjList.length];
+        BreadthFirstPaths BFP = new BreadthFirstPaths();
         StdOut.setFile(args[3]);
         for(int i = 0; i<vertexValues.length;i++){ //populate vertexIndices hashmap
             vertexValues[i] = adjList[i].getFirst();
@@ -64,7 +65,6 @@ public class CollectAnomalies {
         for(int i = 0;i<vertexValues.length;i++){
             vertexIndices.put(vertexValues[i],i);
         }
-
         for(int i = 0; i<vertexValues.length; i++){  //populate dimensionNumbers hashmap
             dimensionNumbers.put(i, vertexValues[i]);
         }
@@ -78,97 +78,35 @@ public class CollectAnomalies {
 
          for(LinkedList<Person> list: peopleArr){
             boolean foundSpider = false;
+            Person spiderman = new Person(-1,"",-1);
             for(Person spider:list){
                 if(spider.getDimension()==spider.getID()){
                     foundSpider = true;
+                    spiderman = spider;
                 }
             }
             for(Person person:list){
-                if(person.getDimension()!=person.getID()){
+                if(person.getDimension()!=person.getID()&&person.getDimension()!=hub){
                     
                     if(foundSpider){
                         int startVertex = vertexIndices.get(person.getDimension());
                         int hubIndex = vertexIndices.get(hub);
-                        StdOut.print(person.getName());
-                        bfs(adjList,startVertex,hubIndex,vertexIndices,dimensionNumbers);
+                        StdOut.print(person.getName() + " " + spiderman.getName()+ " ");
+                        BFP.bfs(adjList,startVertex,hubIndex,vertexIndices);
                     }
                     else {
                         int stopVertex = vertexIndices.get(person.getDimension());
                         int hubIndex = vertexIndices.get(hub);
-                        StdOut.print(person.getName());
-                        bfs(adjList,hubIndex,stopVertex,vertexIndices,dimensionNumbers);
-                        int startVertex = stopVertex;
-                        bfs(adjList,startVertex,hubIndex,vertexIndices,dimensionNumbers);
+                        StdOut.print(person.getName() + " ");
+                        BFP.bfs(adjList,hubIndex,stopVertex,vertexIndices);
                     }
                 }
         }
     }
 }
 
-       
-        private static void bfs(List<Integer>[] adjList, int startVertex, int stopVertex, Map<Integer, Integer> vertexValues, Map<Integer, Integer> dimensionNumbers) {
-    Queue<Integer> queue = new LinkedList<>();
-    boolean[] visited = new boolean[adjList.length];
-    int[] edgeTo = new int[adjList.length];
-    int[] distTo = new int[adjList.length];
 
-    // Initialize distances to infinity
-    Arrays.fill(distTo, Integer.MAX_VALUE);
 
-    // Initialize the queue with the start vertex
-    queue.offer(startVertex);
-    visited[startVertex] = true;
-    distTo[startVertex] = 0;
-
-    // Perform BFS
-    while (!queue.isEmpty()) {
-        int currentVertex = queue.poll();
-        // If we reach the stop vertex, terminate the BFS
-        if (currentVertex == stopVertex) {
-            // Process the shortest path and print vertex values
-            
-            printShortestPath(stopVertex, currentVertex, edgeTo, dimensionNumbers);
-            return;
-        }
-        // Iterate over the neighbors of the current vertex
-        
-       for (int neighbor : adjList[currentVertex]) {
-            int index = vertexValues.get(neighbor);
-            if (!visited[index]) {
-                // Mark the neighbor as visited
-                visited[index] = true;
-                // Record the edge that leads to the neighbor
-                edgeTo[index] = currentVertex;
-                // Update the distance to the neighbor
-                distTo[index] = distTo[currentVertex] + 1;
-                // Add the neighbor to the queue
-                queue.offer(index);
-            }
-        }
-    }
-}
-
-private static void printShortestPath(int startVertex, int stopVertex, int[] edgeTo, Map<Integer, Integer> dimensionNumbers) {
-    Stack<Integer> path = new Stack<>();
-    int currentVertex = stopVertex;
-
-    // Backtrack from the stop vertex to the start vertex
-    while (currentVertex != startVertex) {
-        path.push(currentVertex);
-        currentVertex = edgeTo[currentVertex];
-    }
-    path.push(startVertex); // Add the start vertex to the path
-    // Print the shortest path
-    StdOut.print("Shortest path from " + dimensionNumbers.get(startVertex) + " to " + dimensionNumbers.get(stopVertex) + ": "); //needs hashmap to do opposite
-    while (!path.isEmpty()) {
-        int vertex = path.pop();
-        StdOut.print(dimensionNumbers.get(vertex));
-        if (!path.isEmpty()) {
-            StdOut.print(" -> ");
-        }
-    }
-    StdOut.println();
-}
 
     }
     
