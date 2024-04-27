@@ -1,6 +1,9 @@
 package spiderman;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 public class BreadthFirstPaths {
     private boolean[] marked;
@@ -10,12 +13,12 @@ public class BreadthFirstPaths {
         // Constructor
     }
 
-    public void bfs(LinkedList<Integer>[] adjList, int source, int destination, HashMap<Integer,Integer> Map) {
+    public void bfs(LinkedList<Integer>[] adjList, int source, int destination, HashMap<Integer,Integer> Map, boolean spiderHere) {
         marked = new boolean[adjList.length];
         edgeTo = new int[adjList.length];
         Queue<Integer> queue = new LinkedList<>();
         // Perform BFS
-        queue.offer(source);
+        queue.add(source);
         marked[source] = true;
 
         while (!queue.isEmpty()) {
@@ -32,27 +35,34 @@ public class BreadthFirstPaths {
                 }
             }
         }
-
         // Print the shortest path
-        printShortestPath(source, destination, adjList);
+        printShortestPath(source, destination, adjList, spiderHere);
+        
     }
 
-    private void printShortestPath(int source, int destination, LinkedList<Integer>[] adjList) {
+    private void printShortestPath(int source, int destination, LinkedList<Integer>[] adjList,boolean spiderHere) {
+      Queue<Integer> backPath = new LinkedList<>();
         if (!hasPathTo(destination)) {
             System.out.println("No path exists from " + source + " to " + destination);
             return;
         }
-
         Stack<Integer> path = new Stack<>();
         for (int vertex = destination; vertex != source; vertex = edgeTo[vertex]) {
             path.push(vertex);
+            backPath.add(vertex);
         }
         path.push(source);
-
-        
+        backPath.add(source);
+        backPath.remove();
         while (!path.isEmpty()) {
             StdOut.print(adjList[path.pop()].getFirst() + " ");
         }
+        if(!spiderHere){
+          while(!backPath.isEmpty()){
+            StdOut.print(adjList[backPath.remove()].getFirst() + " ");
+        }
+        }
+        
         StdOut.println();
     }
 

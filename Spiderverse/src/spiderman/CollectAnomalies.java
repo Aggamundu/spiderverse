@@ -1,5 +1,7 @@
 package spiderman;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 /**
  * Steps to implement this class main method:
  * 
@@ -92,13 +94,13 @@ public class CollectAnomalies {
                         int startVertex = vertexIndices.get(person.getDimension());
                         int hubIndex = vertexIndices.get(hub);
                         StdOut.print(person.getName() + " " + spiderman.getName()+ " ");
-                        BFP.bfs(adjList,startVertex,hubIndex,vertexIndices);
+                        BFP.bfs(adjList,startVertex,hubIndex,vertexIndices,foundSpider);
                     }
                     else {
                         int stopVertex = vertexIndices.get(person.getDimension());
                         int hubIndex = vertexIndices.get(hub);
                         StdOut.print(person.getName() + " ");
-                        BFP.bfs(adjList,hubIndex,stopVertex,vertexIndices);
+                        BFP.bfs(adjList,hubIndex,stopVertex,vertexIndices,foundSpider);
                     }
                 }
         }
