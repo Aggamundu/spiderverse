@@ -54,53 +54,59 @@ public class CollectAnomalies {
         Collider collider = new Collider();
         ArrayList<LinkedList<Person>> peopleArr = collider.insertPerson(args[1]);
         LinkedList<Integer> [] adjList = collider.createList(args[0]);
-        HashMap<Integer, Integer> vertexIndices = new HashMap<>();
+        HashMap<Integer, Integer> vertexIndices = new HashMap<>();//value is vertex indices(0-65)
+        HashMap<Integer, Integer> dimensionNumbers = new HashMap<>();//value is dim number
         int[] vertexValues = new int[adjList.length];
         StdOut.setFile(args[3]);
-        for(int i = 0; i<vertexValues.length;i++){
+        for(int i = 0; i<vertexValues.length;i++){ //populate vertexIndices hashmap
             vertexValues[i] = adjList[i].getFirst();
         }
         for(int i = 0;i<vertexValues.length;i++){
             vertexIndices.put(vertexValues[i],i);
         }
-     /*   for(LinkedList<Person> p :peopleArr){
+
+        for(int i = 0; i<vertexValues.length; i++){  //populate dimensionNumbers hashmap
+            dimensionNumbers.put(i, vertexValues[i]);
+        }
+      /*   for(LinkedList<Person> p :peopleArr){
             for(int i=0;i<p.size();i++){
-                System.out.println(vertexIndices.get(p.get(i).getDimension()));
+                System.out.print(p.get(i).getDimension() + " ");
             }
-        } */
+            System.out.println();
+        }*/
         //testing arrays
-    
-        for(LinkedList<Person> list: peopleArr){
+
+         for(LinkedList<Person> list: peopleArr){
             boolean foundSpider = false;
+            for(Person spider:list){
+                if(spider.getDimension()==spider.getID()){
+                    foundSpider = true;
+                }
+            }
             for(Person person:list){
                 if(person.getDimension()!=person.getID()){
-                    for(Person findSpider:list){
-                        if(findSpider.getDimension()==findSpider.getID()){
-                            foundSpider=true;
-                        }
-                    }
+                    
                     if(foundSpider){
                         int startVertex = vertexIndices.get(person.getDimension());
                         int hubIndex = vertexIndices.get(hub);
-                        bfs(adjList,startVertex,hubIndex,vertexIndices);
-                    
-                        
+                        StdOut.print(person.getName());
+                        bfs(adjList,startVertex,hubIndex,vertexIndices,dimensionNumbers);
                     }
-                    else{
+                    else {
                         int stopVertex = vertexIndices.get(person.getDimension());
                         int hubIndex = vertexIndices.get(hub);
-                        bfs(adjList,hubIndex,stopVertex,vertexIndices);
+                        StdOut.print(person.getName());
+                        bfs(adjList,hubIndex,stopVertex,vertexIndices,dimensionNumbers);
                         int startVertex = stopVertex;
-                        bfs(adjList,startVertex,hubIndex,vertexIndices);
+                        bfs(adjList,startVertex,hubIndex,vertexIndices,dimensionNumbers);
                     }
                 }
-            
         }
     }
 }
 
        
-        private static void bfs(List<Integer>[] adjList, int startVertex, int stopVertex, Map<Integer, Integer> vertexValues) {
+        private static void bfs(List<Integer>[] adjList, int startVertex, int stopVertex, Map<Integer, Integer> vertexValues, Map<Integer, Integer> dimensionNumbers) {
     Queue<Integer> queue = new LinkedList<>();
     boolean[] visited = new boolean[adjList.length];
     int[] edgeTo = new int[adjList.length];
@@ -120,7 +126,8 @@ public class CollectAnomalies {
         // If we reach the stop vertex, terminate the BFS
         if (currentVertex == stopVertex) {
             // Process the shortest path and print vertex values
-            printShortestPath(currentVertex, edgeTo, vertexValues);
+            
+            printShortestPath(stopVertex, currentVertex, edgeTo, dimensionNumbers);
             return;
         }
         // Iterate over the neighbors of the current vertex
@@ -141,24 +148,27 @@ public class CollectAnomalies {
     }
 }
 
-private static void printShortestPath(int stopVertex, int[] edgeTo, Map<Integer, Integer> vertexValues) {
-    Stack<Integer> shortestPath = new Stack<>();
+private static void printShortestPath(int startVertex, int stopVertex, int[] edgeTo, Map<Integer, Integer> dimensionNumbers) {
+    Stack<Integer> path = new Stack<>();
+    int currentVertex = stopVertex;
+
     // Backtrack from the stop vertex to the start vertex
-    for (int v = stopVertex; v != 0; v = edgeTo[v]) {
-        shortestPath.push(v);
+    while (currentVertex != startVertex) {
+        path.push(currentVertex);
+        currentVertex = edgeTo[currentVertex];
     }
-    // Print the values of vertices in the shortest path
-    while (!shortestPath.isEmpty()) {
-        int vertex = shortestPath.pop();
-        StdOut.print(vertexValues.get(vertex) + " ");
+    path.push(startVertex); // Add the start vertex to the path
+    // Print the shortest path
+    StdOut.print("Shortest path from " + dimensionNumbers.get(startVertex) + " to " + dimensionNumbers.get(stopVertex) + ": "); //needs hashmap to do opposite
+    while (!path.isEmpty()) {
+        int vertex = path.pop();
+        StdOut.print(dimensionNumbers.get(vertex));
+        if (!path.isEmpty()) {
+            StdOut.print(" -> ");
+        }
     }
     StdOut.println();
 }
 
-
-
-
-        
-    
     }
     
