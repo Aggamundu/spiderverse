@@ -94,7 +94,8 @@ public class CollectAnomalies {
                         int startVertex = vertexIndices.get(person.getDimension());
                         int hubIndex = vertexIndices.get(hub);
                         StdOut.print(person.getName() + " " + spiderman.getName()+ " ");
-                        BFP.bfs(adjList,startVertex,hubIndex,vertexIndices,foundSpider);
+                        BFP.bfs(adjList,hubIndex,startVertex,vertexIndices,foundSpider);
+
                     }
                     else {
                         int stopVertex = vertexIndices.get(person.getDimension());
