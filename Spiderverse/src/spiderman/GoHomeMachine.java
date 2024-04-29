@@ -51,7 +51,7 @@ import java.util.*;
  */
 
 public class GoHomeMachine {
-    
+    //you dont gotta worry about canon events they are not graded in autolabs
     public static void main(String[] args) {
 
         if ( args.length < 5 ) {
@@ -80,12 +80,10 @@ public class GoHomeMachine {
         //do the algorithm on the adj list
         //use hashmap to get the dim weight
 
+        //Its an adjacency list of edges. These edges have a destination and a weight
+
 
     }
 
-    public HashMap<Integer,Integer> dijkstra(int source){
-        Map<Integer, Integer> distances = new HashMap<>();
-        Map<Integer, Integer> predecessors = new HashMap<>();
-        return null;
-    }
+    
 }

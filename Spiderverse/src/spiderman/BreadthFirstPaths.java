@@ -1,10 +1,6 @@
 package spiderman;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
-
+import java.util.*;
 public class BreadthFirstPaths {
     private boolean[] marked;
     private int[] edgeTo;
@@ -59,9 +55,11 @@ public class BreadthFirstPaths {
         if(!spiderHere){
             while(!reversePath.isEmpty()){
                 if(reversePath.peek()!=destination){
-                    StdOut.print(reversePath.pop()+" ");
-                }
+                    StdOut.print(adjList[reversePath.pop()].getFirst()+" ");
+                }else{
                     reversePath.pop();
+                }
+                    
                 
             }
         }
