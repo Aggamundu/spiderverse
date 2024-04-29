@@ -57,13 +57,12 @@ public class BreadthFirstPaths {
         path.add(source);
         reversePath.push(source);
         if(!spiderHere){
-            while (!reversePath.isEmpty()) {//goes back to hub
+            while(!reversePath.isEmpty()){
                 if(reversePath.peek()!=destination){
-                    StdOut.print(adjList[reversePath.pop()].getFirst() + " ");
-                } else{
-                    reversePath.pop();
+                    StdOut.print(reversePath.pop()+" ");
                 }
-            
+                    reversePath.pop();
+                
             }
         }
             
