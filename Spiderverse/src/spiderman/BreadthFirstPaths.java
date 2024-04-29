@@ -41,27 +41,39 @@ public class BreadthFirstPaths {
     }
 
     private void printShortestPath(int source, int destination, LinkedList<Integer>[] adjList,boolean spiderHere) {//swap queues and stacks
-      Stack<Integer> backPath = new Stack<>();
+      
+      
         if (!hasPathTo(destination)) {
             System.out.println("No path exists from " + source + " to " + destination);
             return;
         }
+
+        Stack<Integer> reversePath = new Stack<>(); 
         Queue<Integer> path = new LinkedList<>();
         for (int vertex = destination; vertex != source; vertex = edgeTo[vertex]) {
             path.add(vertex);
-            backPath.push(vertex);
+            reversePath.add(vertex);
         }
         path.add(source);
-        backPath.push(source);
-        backPath.pop();
-        while (!path.isEmpty()) {
+        reversePath.push(source);
+        if(!spiderHere){
+            while (!reversePath.isEmpty()) {//goes back to hub
+                if(reversePath.peek()!=destination){
+                    StdOut.print(adjList[reversePath.pop()].getFirst() + " ");
+                } else{
+                    reversePath.pop();
+                }
+            
+            }
+        }
+            
+        
+        
+        
+        while (!path.isEmpty()) {//goes back to hub
             StdOut.print(adjList[path.remove()].getFirst() + " ");
         }
-        if(!spiderHere){
-          while(!backPath.isEmpty()){
-            StdOut.print(adjList[backPath.pop()].getFirst() + " ");
-        }
-        }
+        
         
         StdOut.println();
     }

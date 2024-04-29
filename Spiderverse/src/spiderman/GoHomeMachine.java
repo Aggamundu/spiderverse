@@ -1,5 +1,5 @@
 package spiderman;
-
+import java.util.*;
 /**
  * Steps to implement this class main method:
  * 
@@ -59,8 +59,33 @@ public class GoHomeMachine {
                 "Execute: java -cp bin spiderman.GoHomeMachine <dimension INput file> <spiderverse INput file> <hub INput file> <anomalies INput file> <report OUTput file>");
                 return;
         }
-
-        // WRITE YOUR CODE HERE
+        Collider collider = new Collider();
+        LinkedList<Integer> [] adjList = collider.createList(args[0]);
+        int[] vertexValues = new int[adjList.length];
+        HashMap<Integer,Integer> vertexIndices = new HashMap<>();
+        for(int i = 0;i<adjList.length;i++){
+            vertexValues[i] = adjList[i].getFirst();
+        }
+        for(int i = 0;i<adjList.length;i++){
+            vertexIndices.put(vertexValues[i],i);
+        }
+        StdIn.setFile(args[2]);
+        int source = StdIn.readInt();
         
+        // all anomalies start from 928
+        // Use djikstras algorithm to find the shortest path
+        // add up all the weights of the dimensions
+        // see if the sum is > allotted time,
+
+        //do the algorithm on the adj list
+        //use hashmap to get the dim weight
+
+
+    }
+
+    public HashMap<Integer,Integer> dijkstra(int source){
+        Map<Integer, Integer> distances = new HashMap<>();
+        Map<Integer, Integer> predecessors = new HashMap<>();
+        return null;
     }
 }
